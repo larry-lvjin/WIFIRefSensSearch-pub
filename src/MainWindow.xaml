@@ -1,0 +1,531 @@
+<Window x:Class="WIFISensitivitySearch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WIFISensitivitySearch"
+        xmlns:dgp="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="WIFISensitivitySearchV3.0"
+        Height="900" Width="1280"
+        Background="#0E1830"
+        FontFamily="Segoe UI"
+        TextOptions.TextFormattingMode="Display">
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgBrush" Color="#0E1830"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="#142142"/>
+        <SolidColorBrush x:Key="PanelBorder" Color="#1D2D5A"/>
+        <SolidColorBrush x:Key="InputBg" Color="#0B1730"/>
+        <SolidColorBrush x:Key="InputBorder" Color="#23386E"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#E6ECFF"/>
+        <SolidColorBrush x:Key="TextDim" Color="#8FA0C7"/>
+        <SolidColorBrush x:Key="YellowAccent" Color="#F2C840"/>
+        <SolidColorBrush x:Key="GreenAccent" Color="#2BB673"/>
+        <SolidColorBrush x:Key="GreenBtn" Color="#1F8A57"/>
+        <SolidColorBrush x:Key="RedBtn" Color="#A12C2C"/>
+        <SolidColorBrush x:Key="OrangeBtn" Color="#C77324"/>
+        <SolidColorBrush x:Key="BlueBtn" Color="#27538F"/>
+        <SolidColorBrush x:Key="BlueAccent" Color="#3DA8E8"/>
+        <SolidColorBrush x:Key="PurpleAccent" Color="#C669D1"/>
+        <SolidColorBrush x:Key="CyanRow" Color="#54B6E0"/>
+        <SolidColorBrush x:Key="GridLine" Color="#1B2A55"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+        </Style>
+
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="GroupBoxStyle" TargetType="GroupBox">
+            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PanelBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <Style x:Key="InputBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource InputBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="CaretBrush" Value="{StaticResource TextPrimary}"/>
+        </Style>
+
+        <SolidColorBrush x:Key="ComboHover" Color="#19305C"/>
+        <SolidColorBrush x:Key="ComboSelected" Color="#22427C"/>
+
+        <Style x:Key="ComboToggleButton" TargetType="ToggleButton">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="Transparent">
+                            <Path x:Name="Arrow" Width="10" Height="6"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Stretch="Uniform" Fill="{StaticResource TextDim}"
+                                  Data="M 0 0 L 5 5 L 10 0 Z"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource TextPrimary}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ComboEditableTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="CaretBrush" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="SelectionBrush" Value="{StaticResource ComboSelected}"/>
+        </Style>
+
+        <Style x:Key="ComboItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="{StaticResource InputBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource ComboHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource ComboSelected}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputCombo" TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource InputBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ComboItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="2"
+                                    SnapsToDevicePixels="True"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="22"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Grid.Column="0"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  IsHitTestVisible="False"/>
+                                <TextBox x:Name="PART_EditableTextBox"
+                                         Grid.Column="0"
+                                         Style="{StaticResource ComboEditableTextBox}"
+                                         Visibility="Collapsed"
+                                         VerticalAlignment="Center"/>
+                                <ToggleButton Grid.Column="1"
+                                              Style="{StaticResource ComboToggleButton}"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border Background="{StaticResource InputBg}"
+                                        BorderBrush="{StaticResource InputBorder}"
+                                        BorderThickness="1"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <ScrollViewer>
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEditable" Value="True">
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ComboSelected}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActionBtn" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="MinWidth" Value="110"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ResultGrid" TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GridLine}"/>
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource GridLine}"/>
+            <Setter Property="RowBackground" Value="#152448"/>
+            <Setter Property="AlternatingRowBackground" Value="#11203F"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="RowHeight" Value="36"/>
+            <Setter Property="ColumnHeaderHeight" Value="34"/>
+        </Style>
+
+        <Style x:Key="GridHeaderStyle" TargetType="{x:Type dgp:DataGridColumnHeader}">
+            <Setter Property="Background" Value="#0C1A38"/>
+            <Setter Property="Foreground" Value="{StaticResource YellowAccent}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GridLine}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="GridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#22325E"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*" MinHeight="120"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*" MinHeight="80"/>
+        </Grid.RowDefinitions>
+
+        <!-- CMW500 Connection -->
+        <GroupBox Grid.Row="0" Style="{StaticResource GroupBoxStyle}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="⚡" Foreground="{StaticResource YellowAccent}" FontSize="16" Margin="0,0,6,0"/>
+                    <TextBlock Text="CMW500 Connection" Foreground="{StaticResource YellowAccent}" Style="{StaticResource SectionHeader}"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="VISA Address:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <ComboBox x:Name="VisaAddressBox" Grid.Column="1" Style="{StaticResource InputCombo}" IsEditable="True" Text="TCPIP0::192.0.2.10::INSTR">
+                    <ComboBoxItem>TCPIP0::192.0.2.10::INSTR</ComboBoxItem>
+                    <ComboBoxItem>TCPIP0::192.0.2.10::INSTR</ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="ConnectButton" Grid.Column="3" Style="{StaticResource ActionBtn}" Background="{StaticResource GreenBtn}" Content="Connect" Click="ConnectButton_Click"/>
+                <Button x:Name="DisconnectButton" Grid.Column="4" Style="{StaticResource ActionBtn}" Background="{StaticResource RedBtn}" Content="Disconnect" IsEnabled="False" Click="DisconnectButton_Click"/>
+                <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="#D43F3F" Margin="0,0,6,0"/>
+                    <TextBlock x:Name="StatusText" Text="Not Connected" Foreground="{StaticResource TextDim}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- DUT Connection -->
+        <GroupBox Grid.Row="1" Style="{StaticResource GroupBoxStyle}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="◉" Foreground="#E08A2A" FontSize="16" Margin="0,0,6,0"/>
+                    <TextBlock Text="DUT Connection" Foreground="#E08A2A" Style="{StaticResource SectionHeader}"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="DUT Port:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <ComboBox x:Name="DutPortBox" Grid.Column="1" Style="{StaticResource InputCombo}" IsEditable="True" Text="COM19"/>
+                <TextBlock Grid.Column="2" Text="Baud:" VerticalAlignment="Center" Margin="16,0,8,0"/>
+                <TextBox x:Name="DutBaudBox" Grid.Column="3" Style="{StaticResource InputBox}" Text="1500000"/>
+                <Button x:Name="DutConnectButton" Grid.Column="5" Style="{StaticResource ActionBtn}" Background="{StaticResource GreenBtn}" Content="Connect" Click="DutConnectButton_Click"/>
+                <Button x:Name="DutDisconnectButton" Grid.Column="6" Style="{StaticResource ActionBtn}" Background="{StaticResource RedBtn}" Content="Disconnect" IsEnabled="False" Click="DutDisconnectButton_Click"/>
+                <StackPanel Grid.Column="7" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <Ellipse x:Name="DutStatusDot" Width="10" Height="10" Fill="#D43F3F" Margin="0,0,6,0"/>
+                    <TextBlock x:Name="DutStatusText" Text="Not Connected" Foreground="{StaticResource TextDim}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Test Configuration -->
+        <GroupBox Grid.Row="2" Style="{StaticResource GroupBoxStyle}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="✱" Foreground="{StaticResource GreenAccent}" FontSize="16" Margin="0,0,6,0"/>
+                    <TextBlock Text="Test Configuration" Foreground="{StaticResource GreenAccent}" Style="{StaticResource SectionHeader}"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Test Mode:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <ComboBox x:Name="TestModeBox" Grid.Column="1" Style="{StaticResource InputCombo}" Width="220" SelectedIndex="0">
+                    <ComboBoxItem>All (21 cases)</ComboBoxItem>
+                    <ComboBoxItem>20M</ComboBoxItem>
+                    <ComboBoxItem>40M</ComboBoxItem>
+                    <ComboBoxItem>11b 20M</ComboBoxItem>
+                    <ComboBoxItem>11g OFDM 20M</ComboBoxItem>
+                    <ComboBoxItem>11g/n 20M</ComboBoxItem>
+                    <ComboBoxItem>11g/n 40M</ComboBoxItem>
+                    <ComboBoxItem>11a 20M</ComboBoxItem>
+                    <ComboBoxItem>11a/n 20M</ComboBoxItem>
+                    <ComboBoxItem>11a/n 40M</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Column="2" Text="Cable Loss (dB):" VerticalAlignment="Center" Margin="16,0,8,0"/>
+                <TextBox x:Name="CableLossBox" Grid.Column="3" Style="{StaticResource InputBox}" Width="80" Text="1.5" TextChanged="CableLossBox_TextChanged"/>
+                <TextBlock Grid.Column="4" Text="RX Expected PEP (dBm):" VerticalAlignment="Center" Margin="16,0,8,0"/>
+                <TextBox x:Name="RxExpectedPepBox" Grid.Column="5" Style="{StaticResource InputBox}" Width="80" Text="30" LostFocus="RxExpectedPepBox_LostFocus" ToolTip="Default 30. Edits persist across restarts. Applied once on Connect; not re-sent during tests."/>
+                <Button x:Name="StartButton" Grid.Column="7" Style="{StaticResource ActionBtn}" Background="{StaticResource BlueBtn}" Content="Start" IsEnabled="False" Click="StartButton_Click"/>
+                <Button x:Name="PauseButton" Grid.Column="8" Style="{StaticResource ActionBtn}" Background="{StaticResource OrangeBtn}" Content="Pause" IsEnabled="False" Click="PauseButton_Click"/>
+                <Button x:Name="StopButton" Grid.Column="9" Style="{StaticResource ActionBtn}" Background="{StaticResource RedBtn}" Content="Stop" IsEnabled="False" Click="StopButton_Click"/>
+                <Button x:Name="ExportButton" Grid.Column="10" Style="{StaticResource ActionBtn}" Background="#3F7A4D" Content="Export Excel" Click="ExportButton_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Result -->
+        <GroupBox Grid.Row="3" Style="{StaticResource GroupBoxStyle}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="▤" Foreground="{StaticResource BlueAccent}" FontSize="16" Margin="0,0,6,0"/>
+                    <TextBlock Text="Result" Foreground="{StaticResource BlueAccent}" Style="{StaticResource SectionHeader}"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <DataGrid x:Name="ResultGrid"
+                      Style="{StaticResource ResultGrid}"
+                      ColumnHeaderStyle="{StaticResource GridHeaderStyle}"
+                      CellStyle="{StaticResource GridCellStyle}"
+                      IsReadOnly="False">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="46" CanUserResize="False" CanUserReorder="False" CanUserSort="False">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="SelectAllBox" IsChecked="True"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Checked="SelectAllBox_Checked" Unchecked="SelectAllBox_Unchecked"
+                                          ToolTip="全选 / 全不选"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          ToolTip="勾选=执行, 不勾选=跳过"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="2*" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{StaticResource CyanRow}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="8,0,0,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Threshold" Binding="{Binding Threshold}" Width="*" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{StaticResource TextDim}"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Start (dBm)"
+                                        Binding="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#}}"
+                                        Width="*" IsReadOnly="False">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#FFD96B"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="ToolTip" Value="Click or F2 to edit. Saved automatically; persists across restarts."/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Background" Value="#1A2A55"/>
+                                <Setter Property="Foreground" Value="#FFD96B"/>
+                                <Setter Property="CaretBrush" Value="#FFD96B"/>
+                                <Setter Property="BorderBrush" Value="#3F5DA0"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="4,2"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Channel1Result}" Width="2*" IsReadOnly="True">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Channel A" Foreground="#F2C840" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Channel2Result}" Width="2*" IsReadOnly="True">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Channel B" Foreground="#F2C840" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Channel3Result}" Width="2*" IsReadOnly="True">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Channel C" Foreground="#F2C840" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <!-- Splitter to resize Result vs Log -->
+        <GridSplitter Grid.Row="4"
+                      Height="6"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      Background="#1D2D5A"
+                      ShowsPreview="False"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"
+                      Cursor="SizeNS"
+                      Margin="0,4,0,4"/>
+
+        <!-- Log -->
+        <GroupBox Grid.Row="5" Style="{StaticResource GroupBoxStyle}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="▤" Foreground="{StaticResource PurpleAccent}" FontSize="16" Margin="0,0,6,0"/>
+                    <TextBlock Text="Log" Foreground="{StaticResource PurpleAccent}" Style="{StaticResource SectionHeader}"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <TextBox x:Name="LogBox"
+                     Background="{StaticResource InputBg}"
+                     Foreground="{StaticResource TextPrimary}"
+                     BorderBrush="{StaticResource InputBorder}"
+                     BorderThickness="1"
+                     FontFamily="Consolas"
+                     FontSize="12"
+                     IsReadOnly="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="NoWrap"
+                     AcceptsReturn="True"/>
+        </GroupBox>
+    </Grid>
+</Window>

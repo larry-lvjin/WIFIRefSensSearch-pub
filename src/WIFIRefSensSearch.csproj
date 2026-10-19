@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>pm15r-tk5t1-001.ico</ApplicationIcon>
+    <!-- 仅 Debug 不生成 .exe 启动器: VS F5 经受信任的 dotnet 宿主启动, 绕开 Smart App Control 对未签名 exe 的拦截。
+         Release/发布需要 apphost(自包含发布强制要求), 故 Release 保持默认(生成 exe)。 -->
+    <UseAppHost Condition="'$(Configuration)' == 'Debug'">false</UseAppHost>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="pm15r-tk5t1-001.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="9.0.0" />
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+  </ItemGroup>
+
+</Project>
