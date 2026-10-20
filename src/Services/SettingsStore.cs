@@ -37,41 +37,20 @@ public static class SettingsStore
 
     public static void SaveStartOverrides(Dictionary<string, double> overrides)
     {
-        try
-        {
-            Directory.CreateDirectory(DirPath);
-            var json = JsonSerializer.Serialize(overrides, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(FilePath, json);
-        }
-        catch
-        {
-            // Swallow — settings persistence is best-effort.
-        }
+        // 实现细节未公开（算法核心）
+        throw new NotImplementedException("该方法的实现不在开源范围内");
     }
 
     public static double LoadRxExpectedPep()
     {
-        try
-        {
-            if (!File.Exists(EpePath)) return DefaultRxExpectedPepDbm;
-            var text = File.ReadAllText(EpePath).Trim();
-            if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var v)) return v;
-        }
-        catch { }
-        return DefaultRxExpectedPepDbm;
+        // 实现细节未公开（算法核心）
+        throw new NotImplementedException("该方法的实现不在开源范围内");
     }
 
     public static void SaveRxExpectedPep(double value)
     {
-        try
-        {
-            Directory.CreateDirectory(DirPath);
-            File.WriteAllText(EpePath, value.ToString("0.0", CultureInfo.InvariantCulture));
-        }
-        catch
-        {
-            // Swallow.
-        }
+        // 实现细节未公开（算法核心）
+        throw new NotImplementedException("该方法的实现不在开源范围内");
     }
 
     public static string OverridesPath => FilePath;
